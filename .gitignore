@@ -1,0 +1,17 @@
+# Node.js
+node_modules/
+.next/
+.turbo/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Misc
+.DS_Store
+*.log
+*.tsbuildinfo
+next-env.d.ts
