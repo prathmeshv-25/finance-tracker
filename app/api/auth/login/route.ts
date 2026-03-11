@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
-import { signToken, setAuthCookie } from "@/lib/auth";
+import { prisma } from "@/services/db";
+import { signToken, setAuthCookie } from "@/services/authService";
 import { z } from "zod";
 
 const loginSchema = z.object({

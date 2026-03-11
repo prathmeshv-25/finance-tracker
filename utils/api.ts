@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAuthUser, JWTPayload } from "./auth";
+import { getAuthUser, JWTPayload } from "@/services/authService";
 
 export async function requireAuth(): Promise<
   { user: JWTPayload } | { error: NextResponse }

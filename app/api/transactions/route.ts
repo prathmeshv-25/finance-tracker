@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { requireAuth, apiError } from "@/lib/api";
+import { prisma } from "@/services/db";
+import { requireAuth, apiError } from "@/utils/api";
 import { z } from "zod";
 
 const transactionSchema = z.object({

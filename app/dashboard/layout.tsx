@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { getAuthUser } from "@/lib/auth";
-import AppLayout from "@/components/AppLayout";
+import { getAuthUser } from "@/services/authService";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await getAuthUser();
