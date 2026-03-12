@@ -1,42 +1,48 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/services/db";
-import { requireAuth } from "@/utils/api";
+import { getAuthUser } from "@/services/authService";
+import { transactionService } from "@/services/transactionService";
+import { budgetService } from "@/services/budgetService";
+import { savingsService } from "@/services/savingsService";
+import { getCurrentMonthInfo } from "@/utils/dateHelpers";
 
-// GET /api/dashboard/summary
 export async function GET() {
-  const auth = await requireAuth();
-  if ("error" in auth) return auth.error;
+  const user = await getAuthUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const userId = auth.user.userId;
+  const { month, year } = getCurrentMonthInfo();
 
-  const [incomeAgg, expenseAgg, recentTransactions, categories] =
-    await Promise.all([
-      prisma.transaction.aggregate({
-        where: { userId, type: "income" },
-        _sum: { amount: true },
-      }),
-      prisma.transaction.aggregate({
-        where: { userId, type: "expense" },
-        _sum: { amount: true },
-      }),
-      prisma.transaction.findMany({
-        where: { userId },
-        include: { category: true },
-        orderBy: { transactionDate: "desc" },
-        take: 5,
-      }),
-      prisma.category.findMany({ orderBy: { name: "asc" } }),
+  try {
+    const [transactions, budgets, savingsGoals, totals] = await Promise.all([
+      transactionService.getUserTransactions(user.userId),
+      budgetService.getBudgets(user.userId, month, year),
+      savingsService.getGoals(user.userId),
+      transactionService.calculateTotals(user.userId),
     ]);
 
-  const totalIncome = Number(incomeAgg._sum.amount ?? 0);
-  const totalExpenses = Number(expenseAgg._sum.amount ?? 0);
-  const balance = totalIncome - totalExpenses;
+    // Calculate category breakdown for chart
+    const categoryTotals = transactions.reduce((acc: any, t) => {
+      if (t.type === "expense") {
+        acc[t.category] = (acc[t.category] || 0) + t.amount;
+      }
+      return acc;
+    }, {});
 
-  return NextResponse.json({
-    totalIncome,
-    totalExpenses,
-    balance,
-    recentTransactions,
-    categories,
-  });
+    const categoryBreakdown = Object.entries(categoryTotals).map(([name, value]) => ({
+      name,
+      value,
+    }));
+
+    return NextResponse.json({
+      totalBalance: totals.balance,
+      totalIncome: totals.income,
+      totalExpense: totals.expense,
+      recentTransactions: transactions.slice(0, 5),
+      budgets,
+      savingsGoals,
+      categoryBreakdown,
+    });
+  } catch (error) {
+    console.error("Dashboard summary error:", error);
+    return NextResponse.json({ error: "Failed to fetch dashboard summary" }, { status: 500 });
+  }
 }

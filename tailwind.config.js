@@ -11,22 +11,27 @@ module.exports = {
         sans: ["Inter", "sans-serif"],
       },
       colors: {
-        background: "#0a0a0f",
-        surface: "#12121a",
-        "surface-2": "#1a1a27",
-        "surface-3": "#22223a",
-        border: "#2a2a45",
-        "border-light": "#3a3a5c",
-        primary: "#6c63ff",
-        "primary-hover": "#7c74ff",
-        "primary-dark": "#4a42cc",
-        accent: "#00d4aa",
-        "accent-hover": "#00e6ba",
-        income: "#00d4aa",
-        expense: "#ff6b6b",
-        "text-primary": "#f0f0ff",
-        "text-secondary": "#9090bb",
-        "text-muted": "#5a5a88",
+        background: "rgb(var(--background))",
+
+        surface: {
+          1: "rgb(var(--surface-1))",
+          2: "rgb(var(--surface-2))",
+          3: "rgb(var(--surface-3))",
+        },
+
+        primary: "rgb(var(--primary))",
+        "primary-hover": "rgb(var(--primary-hover))",
+        secondary: "rgb(var(--secondary))",
+
+        income: "rgb(var(--income))",
+        expense: "rgb(var(--expense))",
+
+        "text-primary": "rgb(var(--text-primary))",
+        "text-secondary": "rgb(var(--text-secondary))",
+        "text-muted": "rgb(var(--text-muted))",
+
+        border: "rgb(var(--border))",
+        "border-light": "rgb(var(--border-light))",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

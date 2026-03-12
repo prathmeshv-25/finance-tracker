@@ -5,7 +5,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,31 +16,52 @@ model User {
   passwordHash String        @map("password_hash")
   createdAt    DateTime      @default(now()) @map("created_at")
   transactions Transaction[]
+  budgets      Budget[]
+  savingsGoals SavingsGoal[]
 
   @@map("users")
 }
 
-model Category {
-  id           String        @id @default(uuid())
-  name         String        @unique
-  type         String
-  transactions Transaction[]
-
-  @@map("categories")
-}
-
 model Transaction {
-  id              String          @id @default(uuid())
-  userId          String          @map("user_id")
-  amount          Float
-  categoryId      String          @map("category_id")
-  type            String
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  amount          Decimal  @db.Decimal(15, 2)
+  category        String
+  type            String   // income | expense
   description     String?
-  transactionDate DateTime        @map("transaction_date")
-  createdAt       DateTime        @default(now()) @map("created_at")
+  transactionDate DateTime @default(now()) @map("transaction_date")
+  createdAt       DateTime @default(now()) @map("created_at")
 
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("transactions")
+}
+
+model Budget {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  category     String
+  monthlyLimit Decimal  @map("monthly_limit") @db.Decimal(15, 2)
+  month        Int
+  year         Int
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, category, month, year])
+  @@map("budgets")
+}
+
+model SavingsGoal {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  title         String
+  targetAmount  Decimal  @map("target_amount") @db.Decimal(15, 2)
+  currentAmount Decimal  @map("current_amount") @db.Decimal(15, 2)
+  deadline      DateTime
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("savings_goals")
 }

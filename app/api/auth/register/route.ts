@@ -1,40 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 import { prisma } from "@/services/db";
-import { signToken, setAuthCookie } from "@/services/authService";
-import { z } from "zod";
+import { hashPassword, signToken, setAuthCookie } from "@/services/authService";
 
-const registerSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
-
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const result = registerSchema.safeParse(body);
+    const { name, email, password } = await req.json();
 
-    if (!result.success) {
-      return NextResponse.json(
-        { error: result.error.errors[0].message },
-        { status: 400 }
-      );
+    if (!name || !email || !password) {
+      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    const { name, email, password } = result.data;
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
 
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      return NextResponse.json(
-        { error: "Email already registered" },
-        { status: 409 }
-      );
+    if (existingUser) {
+      return NextResponse.json({ error: "User already exists" }, { status: 400 });
     }
 
-    const passwordHash = await bcrypt.hash(password, 12);
+    const hashedPassword = await hashPassword(password);
+
     const user = await prisma.user.create({
-      data: { name, email, passwordHash },
+      data: {
+        name,
+        email,
+        passwordHash: hashedPassword,
+      },
     });
 
     const token = await signToken({
@@ -43,14 +34,16 @@ export async function POST(req: NextRequest) {
       name: user.name,
     });
 
-    const response = NextResponse.json(
-      { message: "Account created successfully", user: { id: user.id, name: user.name, email: user.email } },
-      { status: 201 }
-    );
-    response.cookies.set(setAuthCookie(token));
-    return response;
+    setAuthCookie(token);
+
+    return NextResponse.json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
   } catch (error) {
-    console.error("[REGISTER]", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Registration failed" }, { status: 500 });
   }
 }

@@ -1,33 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 import { prisma } from "@/services/db";
-import { signToken, setAuthCookie } from "@/services/authService";
-import { z } from "zod";
+import { comparePassword, signToken, setAuthCookie } from "@/services/authService";
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
-});
-
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const result = loginSchema.safeParse(body);
+    const { email, password } = await req.json();
 
-    if (!result.success) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 400 });
+    if (!email || !password) {
+      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    const { email, password } = result.data;
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
 
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
-    }
-
-    const valid = await bcrypt.compare(password, user.passwordHash);
-    if (!valid) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
+    if (!user || !(await comparePassword(password, user.passwordHash))) {
+      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
     const token = await signToken({
@@ -36,14 +24,16 @@ export async function POST(req: NextRequest) {
       name: user.name,
     });
 
-    const response = NextResponse.json({
-      message: "Login successful",
-      user: { id: user.id, name: user.name, email: user.email },
+    setAuthCookie(token);
+
+    return NextResponse.json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
     });
-    response.cookies.set(setAuthCookie(token));
-    return response;
   } catch (error) {
-    console.error("[LOGIN]", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Login failed" }, { status: 500 });
   }
 }

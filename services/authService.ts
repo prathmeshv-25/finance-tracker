@@ -1,8 +1,9 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import bcrypt from "bcryptjs";
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET ?? "fallback-secret-change-in-production"
+  process.env.JWT_SECRET ?? "fallback-secret-key-at-least-32-chars-long"
 );
 
 const COOKIE_NAME = "ft_token";
@@ -12,6 +13,14 @@ export interface JWTPayload {
   userId: string;
   email: string;
   name: string;
+}
+
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 12);
+}
+
+export async function comparePassword(password: string, hash: string): Promise<boolean> {
+  return bcrypt.compare(password, hash);
 }
 
 export async function signToken(payload: JWTPayload): Promise<string> {
@@ -32,32 +41,24 @@ export async function verifyToken(token: string): Promise<JWTPayload | null> {
 }
 
 export async function getAuthUser(): Promise<JWTPayload | null> {
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const token = cookieStore.get(COOKIE_NAME)?.value;
   if (!token) return null;
   return verifyToken(token);
 }
 
 export function setAuthCookie(token: string) {
-  return {
-    name: COOKIE_NAME,
-    value: token,
+  const cookieStore = cookies();
+  cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
+    sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7, // 7 days
     path: "/",
-  };
+  });
 }
 
 export function clearAuthCookie() {
-  return {
-    name: COOKIE_NAME,
-    value: "",
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
-    maxAge: 0,
-    path: "/",
-  };
+  const cookieStore = cookies();
+  cookieStore.delete(COOKIE_NAME);
 }
