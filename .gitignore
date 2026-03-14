@@ -15,3 +15,7 @@ build/
 *.log
 *.tsbuildinfo
 next-env.d.ts
+
+
+tmp_start_pg.ps1
+
