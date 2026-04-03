@@ -3,7 +3,9 @@ import { getAuthUser } from "@/services/authService";
 import { transactionService } from "@/services/transactionService";
 import { budgetService } from "@/services/budgetService";
 import { savingsService } from "@/services/savingsService";
+import { AnalyticsService } from "@/services/analyticsService";
 import { getCurrentMonthInfo } from "@/utils/dateHelpers";
+import { notificationService } from "@/services/notificationService";
 
 export async function GET() {
   const user = await getAuthUser();
@@ -11,26 +13,55 @@ export async function GET() {
 
   const { month, year } = getCurrentMonthInfo();
 
+  // Trigger lazy checks for subscriptions and reminders (non-blocking)
   try {
-    const [transactions, budgets, savingsGoals, totals] = await Promise.all([
-      transactionService.getUserTransactions(user.userId),
+    notificationService.checkGeneralAlerts(user.userId).catch((err: any) => {
+        console.error("Background notify error:", err);
+    });
+  } catch (err) {
+    console.error("Crashed on general alerts:", err);
+  }
+
+  try {
+    const [transactions, budgets, savingsGoals, totals, anomalies, adherence, categoryBreakdown] = await Promise.all([
+      transactionService.getUserTransactions(user.userId, { take: 10 }), // Only fetch recent
       budgetService.getBudgets(user.userId, month, year),
       savingsService.getGoals(user.userId),
       transactionService.calculateTotals(user.userId),
+      AnalyticsService.getAnomalies(user.userId),
+      AnalyticsService.getBudgetAdherence(user.userId),
+      AnalyticsService.getCategoryBreakdown(user.userId), // Explicitly fetch chart data
     ]);
 
-    // Calculate category breakdown for chart
-    const categoryTotals = transactions.reduce((acc: any, t) => {
-      if (t.type === "expense") {
-        acc[t.category] = (acc[t.category] || 0) + t.amount;
-      }
-      return acc;
-    }, {});
+    // Format Smart Insights
+    const insights: any[] = [];
+    
+    // Add anomalies
+    anomalies.slice(0, 2).forEach((a: any) => {
+      insights.push({
+        type: "warning",
+        title: "Anomaly Detected",
+        message: a.message,
+      });
+    });
 
-    const categoryBreakdown = Object.entries(categoryTotals).map(([name, value]) => ({
-      name,
-      value,
-    }));
+    // Add budget alerts
+    adherence.filter((b: any) => b.isOver).slice(0, 1).forEach((b: any) => {
+      insights.push({
+        type: "alert",
+        title: "Over Budget",
+        message: `Your ${b.category} spending is ${b.percent.toFixed(1)}% of your limit. Recommend cutting back.`,
+      });
+    });
+
+    // Add success insight if everything is going well
+    if (insights.length === 0) {
+      insights.push({
+        type: "success",
+        title: "Financial Milestone",
+        message: "You're staying well within your budget this month. Great job!",
+      });
+    }
 
     return NextResponse.json({
       totalBalance: totals.balance,
@@ -40,6 +71,7 @@ export async function GET() {
       budgets,
       savingsGoals,
       categoryBreakdown,
+      insights: insights.slice(0, 3), 
     });
   } catch (error) {
     console.error("Dashboard summary error:", error);

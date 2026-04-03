@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/services/db";
 import { comparePassword, signToken, setAuthCookie } from "@/services/authService";
+import { notificationService } from "@/services/notificationService";
+import { prisma } from "@/services/db";
 
 export async function POST(req: Request) {
   try {
@@ -15,8 +16,25 @@ export async function POST(req: Request) {
     });
 
     if (!user || !(await comparePassword(password, user.passwordHash))) {
+      if (user) {
+        try {
+            await notificationService.createNotification(
+                user.id,
+                "Security Alert: A failed login attempt was detected for your account.",
+                "system"
+            );
+        } catch {}
+      }
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
+
+    try {
+        await notificationService.createNotification(
+            user.id,
+            "Security Alert: New successful login detected.",
+            "system"
+        );
+    } catch {}
 
     const token = await signToken({
       userId: user.id,
@@ -24,7 +42,7 @@ export async function POST(req: Request) {
       name: user.name,
     });
 
-    setAuthCookie(token);
+    await setAuthCookie(token);
 
     return NextResponse.json({
       user: {

@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import "react-day-picker/dist/style.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,18 +7,18 @@
 :root {
   --primary: 79, 70, 229;
   --primary-hover: 67, 56, 202;
-  --secondary: 161, 161, 170;
+  --secondary: 100, 116, 139;
   --income: 16, 185, 129;
-  --expense: 244, 63, 94;
+  --expense: 239, 68, 68;
   --surface-1: 255, 255, 255;
-  --surface-2: 241, 245, 249;
-  --surface-3: 226, 232, 240;
+  --surface-2: 248, 250, 252;
+  --surface-3: 241, 245, 249;
   --background: 248, 250, 252;
   --text-primary: 15, 23, 42;
   --text-secondary: 71, 85, 105;
   --text-muted: 148, 163, 184;
-  --border: 226, 232, 240;
-  --border-light: 203, 213, 225;
+  --border: 241, 245, 249;
+  --border-light: 226, 232, 240;
 }
 
 @layer base {
@@ -34,6 +35,10 @@
     font-family: 'Inter', sans-serif;
   }
 
+  h1, h2, h3, h4, .font-headline {
+    font-family: 'Manrope', sans-serif;
+  }
+
   /* Custom scrollbar */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { @apply bg-slate-100; }
@@ -42,57 +47,70 @@
 }
 
 @layer components {
+  .glass-effect {
+    backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
   .glass-card {
-    @apply bg-surface-1 border border-border rounded-2xl shadow-card;
+    @apply bg-white/80 border border-slate-200/50 rounded-3xl shadow-premium-shadow;
     backdrop-filter: blur(12px);
   }
 
+  .indigo-gradient {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  }
+
   .btn-primary {
-    @apply bg-primary hover:bg-primary-hover text-white font-semibold px-6 py-3 rounded-xl
+    @apply indigo-gradient text-white font-bold px-6 py-3 rounded-xl
            transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
-           disabled:active:scale-100 shadow-glow hover:shadow-none;
+           disabled:active:scale-100 shadow-lg shadow-indigo-100 hover:opacity-90;
   }
 
   .btn-secondary {
-    @apply bg-surface-2 hover:bg-surface-3 text-text-primary font-medium px-6 py-3 rounded-xl
-           border border-border hover:border-border-light transition-all duration-200 active:scale-95;
+    @apply bg-white hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl
+           border border-slate-200 transition-all duration-200 active:scale-95;
   }
 
   .btn-danger {
-    @apply bg-transparent hover:bg-expense/10 text-expense font-medium px-4 py-2 rounded-lg
-           border border-expense/30 hover:border-expense transition-all duration-200 active:scale-95;
+    @apply bg-transparent hover:bg-red-50 text-red-600 font-bold px-4 py-2 rounded-xl
+           border border-red-100 hover:border-red-200 transition-all duration-200 active:scale-95;
   }
 
   .input-field {
-    @apply w-full bg-surface-2 border border-border hover:border-border-light focus:border-primary
-           text-text-primary placeholder-text-muted rounded-xl px-4 py-3
+    @apply w-full bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-primary/20
+           text-slate-900 placeholder-slate-400 rounded-xl px-4 py-3
            outline-none transition-all duration-200 text-sm;
   }
 
   .label {
-    @apply block text-sm font-medium text-text-secondary mb-1.5;
+    @apply block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5;
   }
 
   .stat-card {
-    @apply glass-card p-5 flex flex-col gap-2 animate-slide-up;
+    @apply bg-white p-6 rounded-3xl border border-slate-200 shadow-sm transition-all hover:shadow-md;
   }
 
   .income-badge {
-    @apply inline-flex items-center gap-1 text-income text-xs font-semibold
-           bg-income/10 px-2.5 py-1 rounded-full;
+    @apply inline-flex items-center gap-1 text-[#10b981] text-[10px] font-bold uppercase
+           bg-[#10b981]/10 px-2.5 py-1 rounded-lg;
   }
 
   .expense-badge {
-    @apply inline-flex items-center gap-1 text-expense text-xs font-semibold
-           bg-expense/10 px-2.5 py-1 rounded-full;
+    @apply inline-flex items-center gap-1 text-[#ef4444] text-[10px] font-bold uppercase
+           bg-[#ef4444]/10 px-2.5 py-1 rounded-lg;
   }
 
   .page-title {
-    @apply text-2xl font-bold text-text-primary tracking-tight;
+    @apply text-3xl font-extrabold text-slate-900 tracking-tight font-headline;
   }
 
   .section-title {
-    @apply text-lg font-semibold text-text-primary;
+    @apply text-lg font-bold text-slate-900 font-headline;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 

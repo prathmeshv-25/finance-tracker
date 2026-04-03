@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 interface CardProps {
@@ -5,16 +7,15 @@ interface CardProps {
   className?: string;
   title?: string;
   subtitle?: string;
-  variant?: "glass" | "default";
 }
 
-export const Card = ({ children, className = "", title, subtitle, variant = "default" }: CardProps) => {
+export const Card = ({ children, className = "", title, subtitle }: CardProps) => {
   return (
-    <div className={`glass-card p-6 ${className}`}>
+    <div className={`bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 p-6 ${className}`}>
       {(title || subtitle) && (
-        <div className="mb-4">
-          {title && <h3 className="text-lg font-semibold text-text-primary">{title}</h3>}
-          {subtitle && <p className="text-sm text-text-secondary">{subtitle}</p>}
+        <div className="mb-6">
+          {title && <h3 className="text-xl font-bold font-headline text-slate-900 tracking-tight">{title}</h3>}
+          {subtitle && <p className="text-xs text-slate-500 font-medium">{subtitle}</p>}
         </div>
       )}
       {children}

@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { Card } from "../ui/Card";
 
 interface StatCardProps {
   title: string;
@@ -10,26 +9,30 @@ interface StatCardProps {
     isPositive: boolean;
   };
   className?: string;
+  description?: string;
 }
 
-export const StatCard = ({ title, value, icon, trend, className = "" }: StatCardProps) => {
+export const StatCard = ({ title, value, icon, trend, className = "", description }: StatCardProps) => {
   return (
-    <Card className={`p-6 ${className}`}>
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">{title}</p>
-          <h3 className="text-2xl font-bold mt-1 text-slate-900">{value}</h3>
-          {trend && (
-            <div className={`flex items-center mt-2 text-sm ${trend.isPositive ? 'text-emerald-600' : 'text-rose-600'}`}>
-              <span className="font-semibold">{trend.isPositive ? '+' : '-'}{trend.value}%</span>
-              <span className="ml-1 text-slate-400">vs last month</span>
-            </div>
-          )}
+    <div className={`bg-white p-6 rounded-3xl border border-slate-200 flex flex-col justify-between shadow-sm transition-all hover:shadow-md ${className}`}>
+      <div>
+        <div className="flex justify-between items-center mb-2">
+          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{title}</p>
+          <div className="text-slate-400">
+            {icon}
+          </div>
         </div>
-        <div className="p-3 bg-slate-50 rounded-xl text-slate-600 border border-slate-100">
-          {icon}
-        </div>
+        <h3 className="text-2xl font-bold font-headline text-slate-900 tracking-tight">{value}</h3>
       </div>
-    </Card>
+      
+      <div className="mt-4 flex items-center justify-between">
+        <p className="text-[10px] text-slate-400 font-medium">{description || "Status"}</p>
+        {trend && (
+          <div className={`flex items-center gap-0.5 text-[10px] font-bold ${trend.isPositive ? 'text-emerald-600' : 'text-rose-600'}`}>
+            {trend.isPositive ? '↑' : '↓'} {trend.value}%
+          </div>
+        )}
+      </div>
+    </div>
   );
 };

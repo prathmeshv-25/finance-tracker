@@ -1,0 +1,371 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Transactions | The Fluid Ledger</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4f46e5", // Indigo 600
+              "primary-dark": "#4338ca",
+              secondary: "#64748b",
+              background: "#f8fafc",
+              surface: "#ffffff",
+              "on-surface": "#0f172a",
+              error: "#ef4444",
+              warning: "#f59e0b",
+              success: "#10b981",
+              border: "#e2e8f0"
+            },
+            fontFamily: {
+              headline: ["Manrope", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+              label: ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.375rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "2xl": "1rem",
+              "3xl": "1.5rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        h1, h2, h3, h4, .font-headline { font-family: 'Manrope', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .glass-effect { backdrop-filter: blur(12px); background-color: rgba(255, 255, 255, 0.8); }
+        .indigo-gradient { background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); }
+    </style>
+</head>
+<body class="antialiased">
+<!-- SideNavBar: Integrated from SCREEN_8 style -->
+<aside class="fixed left-0 top-0 h-screen w-64 flex flex-col py-6 px-4 bg-slate-50 border-r border-slate-200 z-50">
+<div class="mb-10 px-2">
+<h1 class="text-2xl font-black text-blue-900 tracking-tight font-headline" style="">The Fluid Ledger</h1>
+<p class="text-[10px] font-bold font-headline uppercase tracking-[0.2em] text-slate-500 mt-1 opacity-70" style="">Premium Finance</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard" style="">dashboard</span>
+<span class="text-sm font-semibold font-label" style="">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-blue-700 font-bold border-r-4 border-blue-700 bg-blue-50/50 transition-all" href="#" style="">
+<span class="material-symbols-outlined text-xl" data-icon="receipt_long" style="">receipt_long</span>
+<span class="text-sm font-semibold" style="">Transactions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined text-xl" data-icon="account_balance_wallet" style="">account_balance_wallet</span>
+<span class="text-sm font-semibold font-label" style="">Budgets</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined text-xl" data-icon="savings" style="">savings</span>
+<span class="text-sm font-semibold font-label" style="">Savings Goals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined text-xl" data-icon="subscriptions" style="">subscriptions</span>
+<span class="text-sm font-semibold font-label" style="">Subscriptions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined text-xl" data-icon="notifications_active" style="">notifications_active</span>
+<span class="text-sm font-semibold font-label" style="">Reminders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined text-xl" data-icon="file_upload" style="">file_upload</span>
+<span class="text-sm font-semibold font-label" style="">Import</span>
+</a>
+</nav>
+<div class="mt-auto px-2 space-y-4">
+<button class="w-full indigo-gradient text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity" style="">
+<span class="material-symbols-outlined text-lg" data-icon="qr_code_scanner" style="">qr_code_scanner</span>
+<span class="text-sm" style="">Add transactions<br></span>
+</button>
+<div class="pt-4 border-t border-slate-200 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined text-xl" data-icon="help" style="">help</span>
+<span class="text-sm font-semibold font-label" style="">Help</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined text-xl" data-icon="logout" style="">logout</span>
+<span class="text-sm font-semibold font-label" style="">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar: Integrated from SCREEN_8 -->
+<header class="fixed top-0 right-0 left-64 h-16 flex justify-between items-center px-8 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100">
+<div class="flex items-center bg-slate-50 border border-slate-200 rounded-xl px-4 py-1.5 w-96 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all">
+<span class="material-symbols-outlined text-slate-400 text-xl" data-icon="search" style="">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-400" placeholder="Search transactions, notes, or merchants..." type="text">
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-slate-600 hover:text-indigo-600 transition-colors" style="">
+<span class="material-symbols-outlined" data-icon="notifications" style="">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+<div class="text-right">
+<p class="text-sm font-bold text-on-surface font-headline leading-none" style="">Aditya Sharma</p>
+<p class="text-[11px] text-slate-500 font-medium uppercase tracking-wider" style="">Gold Member</p>
+</div>
+<img alt="User Avatar" class="w-9 h-9 rounded-full bg-slate-200 object-cover border border-slate-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB8himC26WZ43-cIzZ-aCp1PYx7OVK2st1DwENR-rYvHfnqzUx1HXqkYvurPX0Qoukg6j__4LQ6dxUro0dJz43NcVlDz7aQUK6sKBcCjfeKXhHSNszOvAQGwT04FTH4697alxZd-iLyGVF39LvtwhQz_WhjeCfLeugClFZAib2CREM8b0p9O_YuJdasQDTVLkpFq2RQdT8eS1b6uR5MUh4ZwmdxV3X_7fo9nkfMlXPEHWG5qt664i59tLpggixaXjvsXQbUwwEbas" style="">
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 pt-24 px-8 pb-12 min-h-screen">
+<div class="max-w-7xl mx-auto">
+<!-- Filters & Actions Header -->
+<div class="bg-white rounded-3xl p-6 mb-6 border border-slate-200 shadow-sm">
+<div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
+<h2 class="text-2xl font-extrabold font-headline text-slate-900" style="">Transactions</h2>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-sm font-semibold hover:bg-slate-100 transition-all" style="">
+<span class="material-symbols-outlined text-sm" data-icon="file_download" style="">file_download</span>
+                            Export CSV
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 indigo-gradient text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 hover:opacity-90 transition-all" style="">
+<span class="material-symbols-outlined text-sm" data-icon="add" style="">add</span>
+                            Manual Entry
+                        </button>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex flex-wrap gap-3">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold border border-indigo-100">
+<span class="" style="">Time: Last 30 Days</span>
+<span class="material-symbols-outlined text-xs cursor-pointer" data-icon="close" style="">close</span>
+</div>
+<button class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 text-slate-600 rounded-full text-xs font-semibold hover:bg-slate-100 border border-slate-200 transition-all" style="">
+<span class="material-symbols-outlined text-xs" data-icon="category" style="">category</span>
+                        Category: All
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 text-slate-600 rounded-full text-xs font-semibold hover:bg-slate-100 border border-slate-200 transition-all" style="">
+<span class="material-symbols-outlined text-xs" data-icon="payments" style="">payments</span>
+                        Method: All
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 text-slate-600 rounded-full text-xs font-semibold hover:bg-slate-100 border border-slate-200 transition-all" style="">
+<span class="material-symbols-outlined text-xs" data-icon="filter_list" style="">filter_list</span>
+                        More Filters
+                    </button>
+</div>
+</div>
+<!-- Transaction Table Container -->
+<div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50/50 border-b border-slate-100">
+<th class="px-8 py-4 w-12" style="">
+<input class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300" type="checkbox">
+</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]" style="">Date</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]" style="">Transaction</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]" style="">Category</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] text-right" style="">Amount</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]" style="">Status</th>
+<th class="px-8 py-4 w-12" style=""></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="px-8 py-5" style="">
+<input class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300" type="checkbox">
+</td>
+<td class="px-8 py-5 text-[12px] font-medium text-slate-500" style="">Oct 26, 2023</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+<span class="material-symbols-outlined text-xl" data-icon="coffee" style="">coffee</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900" style="">Starbucks Coffee</p>
+<p class="text-[11px] text-slate-500 font-medium" style="">UPI Payment • HDFC Bank</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5" style="">
+<span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-[10px] font-bold uppercase" style="">LIFESTYLE</span>
+</td>
+<td class="px-8 py-5 text-sm font-bold text-right text-red-500" style="">-₹450.00</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+<span class="text-[11px] font-bold text-slate-600 uppercase" style="">Settled</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right" style="">
+<button class="p-1.5 hover:bg-slate-100 rounded-lg transition-colors opacity-0 group-hover:opacity-100" style="">
+<span class="material-symbols-outlined text-slate-400" data-icon="more_vert" style="">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="px-8 py-5" style="">
+<input class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300" type="checkbox">
+</td>
+<td class="px-8 py-5 text-[12px] font-medium text-slate-500" style="">Oct 25, 2023</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+<span class="material-symbols-outlined text-xl" data-icon="account_balance" style="">account_balance</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900" style="">TATA CONSULTANCY</p>
+<p class="text-[11px] text-slate-500 font-medium" style="">Salary Credit • ICICI Bank</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5" style="">
+<span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-[10px] font-bold uppercase" style="">SALARY</span>
+</td>
+<td class="px-8 py-5 text-sm font-bold text-right text-emerald-600" style="">+<br>₹85,000.00</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+<span class="text-[11px] font-bold text-slate-600 uppercase" style="">Settled</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right" style="">
+<button class="p-1.5 hover:bg-slate-100 rounded-lg transition-colors opacity-0 group-hover:opacity-100" style="">
+<span class="material-symbols-outlined text-slate-400" data-icon="more_vert" style="">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="px-8 py-5" style="">
+<input checked="" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300" type="checkbox">
+</td>
+<td class="px-8 py-5 text-[12px] font-medium text-slate-500" style="">Oct 24, 2023</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+<span class="material-symbols-outlined text-xl" data-icon="shopping_bag" style="">shopping_bag</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900" style="">Amazon India</p>
+<p class="text-[11px] text-slate-500 font-medium" style="">Card Payment • Amex Platinum</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5" style="">
+<span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-[10px] font-bold uppercase" style="">SHOPPING</span>
+</td>
+<td class="px-8 py-5 text-sm font-bold text-right text-red-500" style="">-₹3,240.00</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+<span class="text-[11px] font-bold text-slate-600 uppercase" style="">Processing</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right" style="">
+<button class="p-1.5 hover:bg-slate-100 rounded-lg transition-colors opacity-0 group-hover:opacity-100" style="">
+<span class="material-symbols-outlined text-slate-400" data-icon="more_vert" style="">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="px-8 py-5" style="">
+<input class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300" type="checkbox">
+</td>
+<td class="px-8 py-5 text-[12px] font-medium text-slate-500" style="">Oct 23, 2023</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+<span class="material-symbols-outlined text-xl" data-icon="restaurant" style="">restaurant</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900" style="">The Fatty Bao</p>
+<p class="text-[11px] text-slate-500 font-medium" style="">UPI Payment • GPay</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5" style="">
+<span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-[10px] font-bold uppercase" style="">DINING</span>
+</td>
+<td class="px-8 py-5 text-sm font-bold text-right text-red-500" style="">-₹1,850.00</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+<span class="text-[11px] font-bold text-slate-600 uppercase" style="">Settled</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right" style="">
+<button class="p-1.5 hover:bg-slate-100 rounded-lg transition-colors opacity-0 group-hover:opacity-100" style="">
+<span class="material-symbols-outlined text-slate-400" data-icon="more_vert" style="">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="px-8 py-5" style="">
+<input class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300" type="checkbox">
+</td>
+<td class="px-8 py-5 text-[12px] font-medium text-slate-500" style="">Oct 22, 2023</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+<span class="material-symbols-outlined text-xl" data-icon="home" style="">home</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900" style="">Shanti Niketan Apts</p>
+<p class="text-[11px] text-slate-500 font-medium" style="">NEFT Transfer • HDFC Bank</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5" style="">
+<span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-[10px] font-bold uppercase" style="">RENT</span>
+</td>
+<td class="px-8 py-5 text-sm font-bold text-right text-red-500" style="">-₹32,000.00</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+<span class="text-[11px] font-bold text-slate-600 uppercase" style="">Settled</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right" style="">
+<button class="p-1.5 hover:bg-slate-100 rounded-lg transition-colors opacity-0 group-hover:opacity-100" style="">
+<span class="material-symbols-outlined text-slate-400" data-icon="more_vert" style="">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-8 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+<p class="text-[12px] font-semibold text-slate-500" style="">Showing 1-10 of 42 transactions</p>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-50 transition-all disabled:opacity-50" disabled="" style="">
+                            Previous
+                        </button>
+<button class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-50 transition-all" style="">
+                            Next
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB from SCREEN_8 shell -->
+<button class="fixed bottom-8 right-8 w-14 h-14 rounded-2xl indigo-gradient shadow-2xl shadow-indigo-300 text-white flex items-center justify-center z-50 hover:scale-105 transition-transform" style="">
+<span class="material-symbols-outlined text-2xl" data-icon="qr_code_scanner" style="font-variation-settings: &quot;FILL&quot; 1;">qr_code_scanner</span>
+</button>
+</body></html>

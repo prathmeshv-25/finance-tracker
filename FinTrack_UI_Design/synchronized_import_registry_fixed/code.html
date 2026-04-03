@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Import Statement - The Fluid Ledger</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface": "#191c1e",
+              "on-background": "#191c1e",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-fixed": "#0d1c2e",
+              "inverse-primary": "#bac3ff",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "surface-variant": "#e0e3e5",
+              "error-container": "#ffdad6",
+              "outline-variant": "#c5c5d4",
+              "on-secondary-fixed-variant": "#3a485b",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed": "#301400",
+              "on-tertiary": "#ffffff",
+              "primary-fixed-dim": "#bac3ff",
+              "on-primary-container": "#cacfff",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary-container": "#8f4700",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d5e3fc",
+              "primary-container": "#3f51b5",
+              "surface-bright": "#f7f9fb",
+              "on-tertiary-container": "#ffc7a2",
+              "inverse-surface": "#2d3133",
+              "surface-container": "#eceef0",
+              "secondary": "#515f74",
+              "on-surface-variant": "#454652",
+              "tertiary": "#6c3400",
+              "on-tertiary-fixed-variant": "#713700",
+              "background": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5",
+              "surface-container-high": "#e6e8ea",
+              "on-secondary-container": "#57657a",
+              "tertiary-fixed": "#ffdcc6",
+              "on-primary-fixed-variant": "#293ca0",
+              "on-primary": "#ffffff",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface-tint": "#4355b9",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "primary-fixed": "#dee0ff",
+              "primary": "#24389c",
+              "tertiary-fixed-dim": "#ffb784",
+              "outline": "#757684",
+              "on-primary-fixed": "#00105c",
+              "on-error-container": "#93000a",
+              "surface": "#f7f9fb"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex overflow-hidden">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f2f4f6] dark:bg-slate-950 flex flex-col p-6 border-r-0 z-40">
+<div class="mb-10">
+<h1 class="text-lg font-black text-[#24389c] dark:text-indigo-400">The Fluid Ledger</h1>
+<p class="text-[10px] tracking-widest uppercase font-bold text-slate-400 mt-1">Premium Financial Concierge</p>
+</div>
+<nav class="flex-grow space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-[#e2e8f0] dark:hover:bg-slate-800 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-[#e2e8f0] dark:hover:bg-slate-800 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+                Transactions
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-[#e2e8f0] dark:hover:bg-slate-800 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+                Budgets
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-[#e2e8f0] dark:hover:bg-slate-800 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined">savings</span>
+                Savings Goals
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-[#e2e8f0] dark:hover:bg-slate-800 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined">subscriptions</span>
+                Subscriptions
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-[#e2e8f0] dark:hover:bg-slate-800 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined">event_repeat</span>
+                Reminders
+            </a>
+<!-- Active Navigation State for Import -->
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-indigo-900/20 text-[#24389c] dark:text-indigo-300 rounded-lg font-semibold shadow-sm transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined">cloud_upload</span>
+                Import
+            </a>
+</nav>
+<!-- CTA at bottom of Sidebar -->
+<div class="mt-auto pt-6 border-t border-outline-variant/15">
+<button class="w-full bg-[#24389c] text-white py-3 rounded-xl font-bold text-sm shadow-md hover:scale-95 transition-all active:opacity-80 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                Add Transaction
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 h-screen overflow-y-auto bg-surface">
+<!-- TopNavBar (Authority Source: JSON) -->
+<header class="w-full h-16 flex items-center justify-between px-8 sticky top-0 z-50 bg-[#f7f9fb] dark:bg-slate-900 no-line-architecture">
+<div class="flex items-center space-x-4 flex-1">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-sm focus:ring-2 focus:ring-primary w-64 transition-all" placeholder="Search statements, files, or dates..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<button class="text-slate-500 hover:bg-slate-100 p-2 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-[#f7f9fb]"></span>
+</button>
+<div class="flex items-center space-x-3 cursor-pointer group">
+<div class="text-right">
+<p class="text-sm font-bold font-headline text-on-surface">Aditya Sharma</p>
+<p class="text-[10px] uppercase tracking-widest text-secondary font-bold">Gold Member</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<div class="p-8 max-w-6xl mx-auto">
+<!-- Breadcrumbs / Page Title -->
+<div class="mb-8">
+<h2 class="text-3xl font-extrabold text-primary tracking-tight font-headline">Import Statement</h2>
+<p class="text-secondary mt-1">Upload your financial data for seamless reconciliation and intelligence.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8 items-start">
+<!-- Upload Zone -->
+<section class="col-span-12 lg:col-span-5">
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm border border-outline-variant/10">
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-10 flex flex-col items-center justify-center text-center bg-surface-container-low/30 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">upload_file</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface mb-2">Drop your statement here</h3>
+<p class="text-sm text-secondary mb-6 max-w-[200px]">Supports PDF, CSV, and high-res receipt images</p>
+<button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold text-sm">Choose File</button>
+</div>
+<div class="mt-8 space-y-4">
+<h4 class="text-xs font-bold uppercase tracking-widest text-secondary">Upload Guidelines</h4>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5">check_circle</span>
+                                    Standard HDFC, ICICI, SBI PDF formats supported.
+                                </li>
+<li class="flex items-start gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5">check_circle</span>
+                                    CSV must include Date, Amount, and Description.
+                                </li>
+<li class="flex items-start gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5">check_circle</span>
+                                    OCR enabled for high-fidelity receipt scanning.
+                                </li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Verification Preview -->
+<section class="col-span-12 lg:col-span-7">
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 overflow-hidden">
+<div class="px-6 py-5 flex items-center justify-between border-b border-outline-variant/10">
+<div>
+<h3 class="text-lg font-bold text-on-surface">Verification Preview</h3>
+<p class="text-xs text-secondary">Awaiting file upload to parse transactions...</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-bold text-secondary">PRE-FLIGHT CHECK</span>
+</div>
+</div>
+<div class="p-6">
+<!-- Empty State Illustration or Data List -->
+<div class="space-y-3">
+<!-- Mock Row 1 -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low group hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface">Amazon India - Order ID #402</div>
+<div class="text-xs text-secondary">14 Oct 2023 • UPI Transfer</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right">
+<div class="text-sm font-bold text-on-surface">₹2,499.00</div>
+<span class="text-[10px] font-bold text-success-600 px-2 py-0.5 bg-green-100 text-green-700 rounded-full">Matched</span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+<!-- Mock Row 2 -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low group hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface">Zomato Limited</div>
+<div class="text-xs text-secondary">13 Oct 2023 • Debit Card</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right">
+<div class="text-sm font-bold text-on-surface">₹842.50</div>
+<span class="text-[10px] font-bold text-orange-600 px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full">Missing Category</span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+<!-- Mock Row 3 -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low group hover:bg-surface-container-high transition-colors opacity-60">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface">Reliance Retail Store</div>
+<div class="text-xs text-secondary">12 Oct 2023 • Cash withdrawal</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right">
+<div class="text-sm font-bold text-on-surface">₹12,400.00</div>
+<span class="text-[10px] font-bold text-green-600 px-2 py-0.5 bg-green-100 text-green-700 rounded-full">Matched</span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-8 flex items-center justify-between pt-6 border-t border-outline-variant/15">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-primary-container border-2 border-white flex items-center justify-center text-[10px] text-white font-bold">12</div>
+<div class="w-8 h-8 rounded-full bg-secondary-container border-2 border-white flex items-center justify-center text-[10px] text-on-secondary-container font-bold">03</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-white flex items-center justify-center text-[10px] text-secondary font-bold">+5</div>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 rounded-lg text-primary font-bold text-sm hover:bg-surface-container-low transition-colors">Clear All</button>
+<button class="px-8 py-2.5 bg-primary text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:scale-105 transition-all">Confirm &amp; Import</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Asymmetric Design Element: Info Card -->
+<div class="mt-8 bg-gradient-to-br from-primary to-primary-container p-6 rounded-2xl text-white flex items-center justify-between relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="text-lg font-bold mb-1">Intelligent Reconciliation</h4>
+<p class="text-xs text-white/80 max-w-[280px]">Our engine automatically matches manual ledger entries with your uploaded bank statements with 99.4% accuracy.</p>
+</div>
+<div class="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center absolute -right-6 -bottom-6 blur-2xl"></div>
+<span class="material-symbols-outlined text-5xl opacity-20 transform -rotate-12">auto_awesome</span>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Logic: Suppress on Detail/Transactional pages) -->
+<!-- FAB Suppressed as this is a focused Task-Focused Import page -->
+</body></html>

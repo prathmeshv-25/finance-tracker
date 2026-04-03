@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
+import { UserProvider } from "@/context/UserContext";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,9 +19,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="light">
       <body className={`${inter.className} bg-background text-text-primary antialiased`}>
-        {children}
+        <UserProvider>
+          {children}
+        </UserProvider>
         <Toaster
           position="top-right"
           toastOptions={{

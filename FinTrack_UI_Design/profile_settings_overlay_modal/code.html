@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard - The Fluid Ledger</title>
+<!-- Fonts: Manrope for Headings, Inter for Body -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-container": "#57657a",
+              "outline": "#757684",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "inverse-on-surface": "#eff1f3",
+              "surface-tint": "#4355b9",
+              "on-tertiary-fixed": "#301400",
+              "tertiary": "#6c3400",
+              "on-secondary-fixed": "#0d1c2e",
+              "background": "#f7f9fb",
+              "inverse-surface": "#2d3133",
+              "secondary-fixed": "#d5e3fc",
+              "primary-fixed": "#dee0ff",
+              "tertiary-fixed": "#ffdcc6",
+              "tertiary-container": "#8f4700",
+              "on-secondary-fixed-variant": "#3a485b",
+              "surface": "#f7f9fb",
+              "primary": "#24389c",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface-container-high": "#e6e8ea",
+              "on-primary-fixed-variant": "#293ca0",
+              "surface-variant": "#e0e3e5",
+              "primary-fixed-dim": "#bac3ff",
+              "on-primary-container": "#cacfff",
+              "inverse-primary": "#bac3ff",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#ffb784",
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#454652",
+              "surface-container": "#eceef0",
+              "on-surface": "#191c1e",
+              "secondary": "#515f74",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#713700",
+              "primary-container": "#3f51b5",
+              "on-background": "#191c1e",
+              "outline-variant": "#c5c5d4",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "on-primary-fixed": "#00105c",
+              "surface-dim": "#d8dadc",
+              "on-tertiary-container": "#ffc7a2"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      h1, h2, h3, .brand-font {
+        font-family: 'Manrope', sans-serif;
+      }
+      .glass-search {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+      }
+      /* Custom scrollbar for the modal content */
+      .modal-scroll::-webkit-scrollbar {
+        width: 6px;
+      }
+      .modal-scroll::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .modal-scroll::-webkit-scrollbar-thumb {
+        background: #e0e3e5;
+        border-radius: 10px;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden">
+<!-- Background Content (Dashboard) -->
+<div class="fixed inset-0 flex">
+<!-- SideNavBar -->
+<aside class="w-64 bg-[#f2f4f6] dark:bg-slate-800 flex flex-col p-6 gap-y-2 pt-8">
+<div class="mb-8 px-2">
+<h1 class="text-xl font-black text-[#24389c] dark:text-blue-400 brand-font">The Fluid Ledger</h1>
+<p class="text-xs text-secondary-container font-medium uppercase tracking-widest mt-1">Premium Finance</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-white/50 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-body text-sm font-medium">Transactions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-white/50 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-body text-sm font-medium">Budgets</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-white/50 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="savings">savings</span>
+<span class="font-body text-sm font-medium">Savings Goals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-white/50 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="subscriptions">subscriptions</span>
+<span class="font-body text-sm font-medium">Subscriptions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-white/50 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+<span class="font-body text-sm font-medium">Reminders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-[#24389c] hover:bg-white/50 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+<span class="font-body text-sm font-medium">Import</span>
+</a>
+</nav>
+<button class="mt-auto bg-primary text-white py-3 px-4 rounded-xl font-headline font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                Add Transaction
+            </button>
+</aside>
+<!-- Main Dashboard View -->
+<div class="flex-1 flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full bg-[#f7f9fb] flex justify-between items-center px-8 py-4">
+<div class="flex items-center gap-4 flex-1">
+<div class="glass-search flex items-center px-4 py-2 rounded-xl w-full max-w-md bg-surface-container-low border border-outline-variant/10">
+<span class="material-symbols-outlined text-on-surface-variant mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body" placeholder="Search transactions, budgets..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative cursor-pointer hover:bg-slate-100 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined text-secondary" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-headline font-bold text-sm text-on-surface">Aditya Sharma</p>
+<p class="text-[10px] font-semibold text-primary uppercase tracking-wider">Gold Member</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMTKaEieQaFFN6842xWqLOqkfT5JH2runR7NHRbTZcx798gVoCS0M7Q35bdIArHHlwpvnLB-qcuQm6vMCNbMMQ1tF4CxuJtU9UzB3BfjFVkx7rFdkmHVWxYEc3Hsv7PL0c1kHpXKB_ytS6VhqLx-Sm7-xx-vrDloWqMpPHd4CYWgpP13C5iwgSSTiuEewrY2Rp0qH4-14xzvTlLvj-th8Uq33edqOpnUQFfcIn-OEUnsLB2OHrQzLg9vCJOGGaM2AKbv3GMMawCMM"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Content Placeholder (Blurred/Faded) -->
+<main class="p-10 opacity-50 filter blur-[2px] pointer-events-none">
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-8 space-y-6">
+<div class="bg-white p-8 rounded-3xl h-64 shadow-sm border border-outline-variant/5"></div>
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-white p-8 rounded-3xl h-48 shadow-sm border border-outline-variant/5"></div>
+<div class="bg-white p-8 rounded-3xl h-48 shadow-sm border border-outline-variant/5"></div>
+</div>
+</div>
+<div class="col-span-4 bg-white p-8 rounded-3xl h-full shadow-sm border border-outline-variant/5"></div>
+</div>
+</main>
+</div>
+</div>
+<!-- Profile & Settings Modal Overlay -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-10">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-on-surface/40 backdrop-blur-md"></div>
+<!-- Modal Container -->
+<div class="relative bg-surface w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-[2rem] shadow-2xl flex flex-col">
+<!-- Modal Header -->
+<div class="flex items-center justify-between px-10 py-6 border-b border-outline-variant/10 bg-surface/80 backdrop-blur-sm sticky top-0 z-10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">account_circle</span>
+<h2 class="text-2xl font-extrabold font-headline">Profile &amp; Settings</h2>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Content (Scrollable) -->
+<div class="flex-1 overflow-y-auto p-10 modal-scroll bg-surface-bright">
+<!-- User Info Header -->
+<section class="flex flex-col md:flex-row items-center md:items-end gap-8 mb-12">
+<div class="relative">
+<img class="w-32 h-32 rounded-full border-4 border-surface-container-lowest shadow-xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUa5MgXXYUR42h1b3jqXtpCaKgalu8FyBOfvkOIubZLillqEoygb1MsPFKDgohoM-F3H5TQdqYimEVYd9BLqOgj_RVX9n36CQzmBy99XkGfKmtjrC2NxrA27gbK2tBn-y2zBYSPUsyoAGtXE-Nlbf-PhUQLSs9_bLf4b4tWV7EqAXm8-_WsVbd01HNYm6thOi4kHs8dnHdkFe5b8xFQR9tMDciY5VBMjZORMiXE_kZBdu3cc-d7PspWJGTIxXm_j3-NjzFEyvwflo"/>
+<button class="absolute bottom-0 right-0 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+<div class="flex-1 text-center md:text-left">
+<h3 class="text-4xl font-extrabold text-on-surface mb-2 font-headline">Aditya Sharma</h3>
+<div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
+<span class="px-4 py-1 bg-primary-container text-on-primary-container rounded-full text-xs font-bold uppercase tracking-widest">Gold Member</span>
+<span class="text-on-secondary-container text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                                Member since Oct 2021
+                            </span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2 bg-surface-container-lowest text-on-surface border border-outline-variant/20 rounded-xl font-bold text-sm shadow-sm hover:bg-surface-container-low transition-colors">Export Profile</button>
+<button class="px-6 py-2 bg-primary text-white rounded-xl font-bold text-sm shadow-md hover:opacity-90 transition-opacity">Save Changes</button>
+</div>
+</section>
+<!-- Bento Grid for Details -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Personal Details -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-3xl p-8 shadow-sm border border-outline-variant/5">
+<h3 class="text-xl font-bold text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="person">person</span>
+                            Personal Details
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-secondary uppercase tracking-wider ml-1">Full Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container text-on-surface font-medium" type="text" value="Aditya Sharma"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-secondary uppercase tracking-wider ml-1">Email Address</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container text-on-surface font-medium" type="email" value="aditya.sharma@finledger.in"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-secondary uppercase tracking-wider ml-1">Phone Number</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container text-on-surface font-medium" type="tel" value="+91 98765 43210"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-secondary uppercase tracking-wider ml-1">Location</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container text-on-surface font-medium" type="text" value="Mumbai, Maharashtra"/>
+</div>
+</div>
+</div>
+<!-- Preferences -->
+<div class="lg:col-span-4 bg-surface-container-low rounded-3xl p-8 border border-outline-variant/5">
+<h3 class="text-xl font-bold text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="settings">settings</span>
+                            Preferences
+                        </h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="payments">payments</span>
+<span class="text-sm font-semibold">Currency</span>
+</div>
+<span class="text-primary font-bold">₹ INR</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="language">language</span>
+<span class="text-sm font-semibold">Language</span>
+</div>
+<span class="text-on-surface-variant font-medium">English (IN)</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="dark_mode">dark_mode</span>
+<span class="text-sm font-semibold">Appearance</span>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative p-1 cursor-pointer">
+<div class="w-4 h-4 bg-white rounded-full shadow-sm translate-x-6 transition-transform"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Account Security -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-3xl p-8 shadow-sm border border-outline-variant/5">
+<h3 class="text-xl font-bold text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="security">security</span>
+                            Account Security
+                        </h3>
+<div class="space-y-4">
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-low rounded-xl transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="lock_reset">lock_reset</span>
+</div>
+<div class="text-left">
+<p class="text-sm font-bold">Change Password</p>
+<p class="text-[10px] text-secondary">Last changed 3 months ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+<div class="w-full flex items-center justify-between p-4 bg-surface-container-low/50 rounded-xl">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="vpn_key">vpn_key</span>
+</div>
+<div class="text-left">
+<p class="text-sm font-bold">Two-Factor Authentication</p>
+<p class="text-[10px] text-primary font-bold">Enabled</p>
+</div>
+</div>
+<div class="w-10 h-5 bg-primary rounded-full relative p-1 cursor-pointer">
+<div class="w-3 h-3 bg-white rounded-full translate-x-5"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Linked Accounts -->
+<div class="lg:col-span-7 bg-surface-container-low rounded-3xl p-8 border border-outline-variant/5">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance">account_balance</span>
+                                Linked Accounts
+                            </h3>
+<button class="text-primary font-bold text-xs flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span>
+                                Link New Account
+                            </button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-[#1d3a8a] rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">HDFC</div>
+<div class="flex flex-col justify-center">
+<p class="text-sm font-extrabold leading-tight">HDFC Savings Account</p>
+<p class="text-[10px] text-secondary font-medium mt-1">**** 8821 | ₹4,25,000.00</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold text-[#10b981] bg-[#10b981]/10 px-2 py-1 rounded">Active</span>
+<button class="material-symbols-outlined text-outline-variant" data-icon="more_vert">more_vert</button>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-[#e11d48] rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">ICICI</div>
+<div class="flex flex-col justify-center">
+<p class="text-sm font-extrabold leading-tight">ICICI Salary Account</p>
+<p class="text-[10px] text-secondary font-medium mt-1">**** 1092 | ₹1,12,450.00</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold text-[#10b981] bg-[#10b981]/10 px-2 py-1 rounded">Active</span>
+<button class="material-symbols-outlined text-outline-variant" data-icon="more_vert">more_vert</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Danger Zone -->
+<section class="mt-12 bg-error-container/10 border border-error/10 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div>
+<h4 class="text-error font-bold text-lg font-headline">Danger Zone</h4>
+<p class="text-sm text-secondary">Deactivate your account and delete all associated financial data.</p>
+</div>
+<button class="px-8 py-3 border-2 border-error text-error font-bold rounded-xl hover:bg-error hover:text-white transition-colors text-sm">Deactivate Account</button>
+</section>
+</div>
+</div>
+</div>
+</body></html>
