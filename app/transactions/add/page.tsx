@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { CategoryName } from "@/types";
+import { DatePicker } from "@/components/ui/DatePicker";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -15,18 +16,27 @@ const categories: CategoryName[] = ["Food", "Transport", "Shopping", "Bills", "S
 export default function AddTransactionPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [type, setType] = useState<"expense" | "income">("expense");
+  const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [amount, setAmount] = useState<string>("");
+  const [category, setCategory] = useState<string>("Food");
+  const [description, setDescription] = useState<string>("");
+
+  const categoriesByType = {
+    expense: ["Food", "Transport", "Shopping", "Bills", "Entertainment", "Health", "Other"],
+    income: ["Salary", "Freelance", "Investment", "Gifts", "Other"],
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     
-    const formData = new FormData(e.currentTarget);
     const data = {
-      amount: parseFloat(formData.get("amount") as string),
-      category: formData.get("category"),
-      type: formData.get("type"),
-      description: formData.get("description"),
-      date: formData.get("date"),
+      amount: parseFloat(amount),
+      category,
+      type,
+      description,
+      date,
     };
 
     try {
@@ -62,15 +72,31 @@ export default function AddTransactionPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Type</label>
-                <select name="type" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all font-semibold">
+                <select 
+                  name="type" 
+                  required 
+                  value={type}
+                  onChange={(e) => {
+                    const newType = e.target.value as "expense" | "income";
+                    setType(newType);
+                    setCategory(categoriesByType[newType][0]);
+                  }}
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all font-semibold"
+                >
                   <option value="expense">Expense</option>
                   <option value="income">Income</option>
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Category</label>
-                <select name="category" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all font-semibold">
-                  {categories.map(cat => (
+                <select 
+                  name="category" 
+                  required 
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all font-semibold"
+                >
+                  {categoriesByType[type].map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
                 </select>
@@ -79,17 +105,37 @@ export default function AddTransactionPage() {
 
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Amount</label>
-              <Input type="number" name="amount" placeholder="0.00" required min="0.01" step="0.01" className="text-lg font-bold py-6 px-4 bg-slate-50" />
+              <Input 
+                type="number" 
+                name="amount" 
+                placeholder="0.00" 
+                required 
+                min="0.01" 
+                step="0.01" 
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="text-lg font-bold py-6 px-4 bg-slate-50" 
+              />
             </div>
 
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Description</label>
-              <Input name="description" placeholder="What was this for?" className="py-3 px-4 bg-slate-50" />
+              <Input 
+                name="description" 
+                placeholder="What was this for?" 
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="py-3 px-4 bg-slate-50" 
+              />
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Date</label>
-              <Input type="date" name="date" defaultValue={new Date().toISOString().split('T')[0]} required className="py-3 px-4 bg-slate-50" />
+              <DatePicker 
+                label="Date"
+                value={date}
+                onChange={setDate}
+                required
+              />
             </div>
 
             <Button type="submit" disabled={loading} className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-lg rounded-xl transition-all shadow-xl shadow-indigo-200 mt-4">

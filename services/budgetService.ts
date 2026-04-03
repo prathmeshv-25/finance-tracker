@@ -82,4 +82,57 @@ export const budgetService = {
     if (monthlyLimit === 0) return 0;
     return Math.min(Math.round((spent / monthlyLimit) * 100), 100);
   },
+
+  async checkAndNotifyBudgetExceeded(userId: string, category: string, date: Date, amountAdded: number = 0): Promise<void> {
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    const budget = await prisma.budget.findFirst({
+      where: { userId, category, month, year },
+    });
+
+    if (!budget) return;
+
+    const spentResult = await prisma.transaction.aggregate({
+      where: {
+        userId,
+        category,
+        type: "expense",
+        transactionDate: {
+          gte: new Date(year, month - 1, 1),
+          lt: new Date(year, month, 1),
+        },
+      },
+      _sum: { amount: true },
+    });
+
+    const totalSpent = Number(spentResult._sum.amount || 0);
+    const limit = Number(budget.monthlyLimit);
+    if (limit <= 0) return;
+
+    const prevSpent = totalSpent - amountAdded;
+    const prevPercent = (prevSpent / limit) * 100;
+    const currentPercent = (totalSpent / limit) * 100;
+
+    const { budgetThresholds } = await notificationService.getAlertSettings(userId);
+    const crossedThresholds = budgetThresholds.filter(t => prevPercent < t && currentPercent >= t);
+
+    for (const threshold of crossedThresholds) {
+      let severity = "Warning";
+      if (threshold >= 110) severity = "Critical (Overspending)";
+      else if (threshold >= 100) severity = "Danger (Limit reached)";
+      else if (threshold >= 80) severity = "Alert";
+
+      await notificationService.notifyIfThresholdCrossed({
+        userId,
+        message: `${severity}: ${category} budget is ${threshold}% used. Spent: ₹${totalSpent.toLocaleString()}, Limit: ₹${limit.toLocaleString()}`,
+        type: "budget",
+        threshold,
+        identifier: `budget:${category}:${year}-${month}`,
+      });
+    }
+  },
 };
+
+import { notificationService } from "./notificationService";
+

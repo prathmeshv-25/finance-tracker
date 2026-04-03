@@ -1,7 +1,8 @@
 "use client";
 
 import { Transaction } from "@/types";
-import { formatCurrency, formatDate } from "@/utils/formatCurrency";
+import { formatCurrency } from "@/utils/formatCurrency";
+import { formatDate } from "@/utils/dateHelpers";
 import { Trash2, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 
 interface TransactionTableProps {
@@ -49,7 +50,7 @@ export const TransactionTable = ({ transactions, onDelete, loading }: Transactio
               </td>
               <td className="px-4 py-4">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-2 text-text-primary border border-border">
-                  {t.category?.name || "Uncategorized"}
+                  {t.category || "Uncategorized"}
                 </span>
               </td>
               <td className="px-4 py-4 text-sm text-text-primary">

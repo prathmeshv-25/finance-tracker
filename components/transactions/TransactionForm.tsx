@@ -1,13 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Category } from "@/types";
+import { DatePicker } from "@/components/ui/DatePicker";
 import toast from "react-hot-toast";
+
+interface Category {
+  id: string;
+  name: string;
+  type: string;
+}
 
 const transactionSchema = z.object({
   amount: z.preprocess((val) => Number(val), z.number().positive("Amount must be positive")),
@@ -44,6 +50,7 @@ export const TransactionForm = ({ onSubmit, loading }: TransactionFormProps) => 
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
@@ -102,11 +109,17 @@ export const TransactionForm = ({ onSubmit, loading }: TransactionFormProps) => 
         </div>
       </div>
 
-      <Input
-        label="Date"
-        type="date"
-        error={errors.transactionDate?.message}
-        {...register("transactionDate")}
+      <Controller
+        name="transactionDate"
+        control={control}
+        render={({ field }) => (
+          <DatePicker
+            label="Date"
+            value={field.value}
+            onChange={field.onChange}
+            error={errors.transactionDate?.message}
+          />
+        )}
       />
 
       <Input

@@ -14,6 +14,16 @@ export interface Transaction {
   transactionDate: string;
   userId: string;
   createdAt: string;
+  savingsGoalId?: string | null;
+}
+
+export interface TransactionFilters {
+  category?: string;
+  type?: string;
+  startDate?: string;
+  endDate?: string;
+  minAmount?: number;
+  maxAmount?: number;
 }
 
 export interface Budget {
@@ -45,6 +55,7 @@ export interface DashboardSummary {
   budgets: Budget[];
   savingsGoals: SavingsGoal[];
   categoryBreakdown: { name: string; value: number }[];
+  insights: { type: "alert" | "warning" | "success"; title: string; message: string }[];
 }
 
 export type CategoryName = 
@@ -52,5 +63,10 @@ export type CategoryName =
   | "Transport" 
   | "Shopping" 
   | "Bills" 
+  | "Entertainment"
+  | "Health"
   | "Salary" 
+  | "Freelance"
+  | "Investment"
+  | "Gifts"
   | "Other";

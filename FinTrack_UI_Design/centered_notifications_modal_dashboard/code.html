@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fluid Ledger - Notifications</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed": "#00105c",
+              "on-secondary-container": "#57657a",
+              "on-secondary": "#ffffff",
+              "outline-variant": "#c5c5d4",
+              "on-primary-fixed-variant": "#293ca0",
+              "primary-container": "#3f51b5",
+              "secondary": "#515f74",
+              "primary": "#24389c",
+              "tertiary-fixed-dim": "#ffb784",
+              "surface-container-low": "#f2f4f6",
+              "on-tertiary-fixed-variant": "#713700",
+              "secondary-fixed": "#d5e3fc",
+              "primary-fixed": "#dee0ff",
+              "on-error": "#ffffff",
+              "secondary-fixed-dim": "#b9c7df",
+              "error-container": "#ffdad6",
+              "tertiary-fixed": "#ffdcc6",
+              "on-surface-variant": "#454652",
+              "on-primary-container": "#cacfff",
+              "surface-tint": "#4355b9",
+              "surface-dim": "#d8dadc",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "outline": "#757684",
+              "surface-variant": "#e0e3e5",
+              "surface-bright": "#f7f9fb",
+              "background": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary": "#6c3400",
+              "surface-container-high": "#e6e8ea",
+              "inverse-surface": "#2d3133",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-tertiary-container": "#ffc7a2",
+              "tertiary-container": "#8f4700",
+              "inverse-primary": "#bac3ff",
+              "on-secondary-fixed": "#0d1c2e",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed": "#301400",
+              "primary-fixed-dim": "#bac3ff",
+              "on-tertiary": "#ffffff",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-surface": "#191c1e",
+              "surface-container": "#eceef0",
+              "surface": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .modal-open {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed modal-open">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-64 z-50 bg-[#f2f4f6] dark:bg-slate-900 flex flex-col py-8 px-6 justify-between border-r border-slate-200/20">
+<div>
+<div class="mb-10">
+<h1 class="font-headline font-extrabold text-2xl text-[#3F51B5]">Fluid Ledger</h1>
+<p class="text-[10px] tracking-widest uppercase text-slate-500 font-semibold mt-1">The Ethereal Vault</p>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#3F51B5] dark:text-indigo-300 bg-white dark:bg-slate-800 rounded-lg shadow-sm font-bold duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#3F51B5] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="text-sm font-semibold">Transactions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#3F51B5] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="text-sm font-semibold">Budgets</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#3F51B5] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="moving">moving</span>
+<span class="text-sm font-semibold">Savings Goals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#3F51B5] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="subscriptions">subscriptions</span>
+<span class="text-sm font-semibold">Subscriptions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#3F51B5] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+<span class="text-sm font-semibold">Reminders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#3F51B5] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+<span class="text-sm font-semibold">Import</span>
+</a>
+</nav>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 px-6 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:scale-95 transition-all duration-150 ease-in-out flex items-center justify-center">
+            Add Transaction
+        </button>
+</aside>
+<!-- Main Container (Dimmed when modal open) -->
+<div class="ml-64 relative min-h-screen transition-all duration-300 blur-md brightness-90">
+<!-- Top App Bar -->
+<header class="sticky top-0 w-full z-40 bg-surface-container-low/50 backdrop-blur-md flex justify-between items-center px-8 py-3">
+<div class="flex items-center bg-surface-container-lowest px-4 py-2 rounded-full w-96 border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body" placeholder="Search insights..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-indigo-50 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+<div class="text-right">
+<p class="text-sm font-bold text-on-surface">Aditya Sharma</p>
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Gold Member</p>
+</div>
+<img alt="User Profile Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary-container/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt0ee5LqWbziDaHDuHcK69HeFblMueBUR60_WsfDXR86h9nPgzLl9X9fsuLJuBJEKzUwK9DnzuZ2hzOcVSXi2nQ7Nb9vSmdGekc-edDpF6OTnep_Zhjzdsqp-h4c8Z6RGIQ9f6burYWeQ4SHjVNJgdxluK0Z12LOThhzZPru426dBxmw1w_mjvvMpZxTRrcUt58h3aiRKbUUC_5QGvTw_5dBJdSmUildfpZa1Dn8jX01GCOy4KH7thvYtHYgVQBvtV1_Wf886ygqM"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="p-8">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Hero Bento Grid -->
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest p-8 rounded-[2rem] relative overflow-hidden">
+<p class="text-secondary font-semibold text-sm tracking-wide mb-2">AVAILABLE LIQUIDITY</p>
+<h2 class="font-headline font-extrabold text-[4rem] leading-none text-primary tracking-tighter">₹1,24,500<span class="text-2xl align-top font-label text-secondary-container ml-2">.00</span></h2>
+<div class="mt-8 flex gap-6">
+<div class="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span> +12.5% vs last month
+                            </div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-5 bg-primary p-8 rounded-[2rem] text-on-primary shadow-xl">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-white/10 p-2 rounded-lg backdrop-blur-md">
+<span class="material-symbols-outlined text-white" data-icon="psychology">psychology</span>
+</div>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">AI Ledger Insights</h3>
+<p class="text-on-primary-container text-sm leading-relaxed mb-6">Your "Dining Out" category is 15% higher than usual this week.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Notification Modal Overlay -->
+<div class="fixed inset-0 bg-slate-900/40 backdrop-blur-[4px] z-[60] flex items-center justify-center p-4">
+<!-- Modal Content -->
+<div class="w-full max-w-xl bg-white rounded-[2rem] shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-white/20">
+<!-- Header -->
+<div class="p-8 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10">
+<div>
+<h2 class="font-headline font-extrabold text-2xl text-on-surface">Notifications</h2>
+<p class="text-sm text-slate-500 font-medium">4 unread alerts to review</p>
+</div>
+<button class="text-primary text-sm font-bold hover:bg-primary-fixed/30 px-4 py-2 rounded-full transition-colors">Mark all as read</button>
+</div>
+<!-- Notifications Scroll Area -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8 bg-surface-bright/30">
+<!-- Today Group -->
+<section>
+<h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">Today</h3>
+<div class="space-y-4">
+<!-- Critical Alert (Red) -->
+<div class="group relative bg-white border border-error/10 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex gap-5">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-error-container text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="warning">warning</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-base font-bold text-on-surface">Budget Exceeded</h4>
+<span class="text-xs text-slate-400 font-medium">2h ago</span>
+</div>
+<p class="text-sm text-slate-600 leading-relaxed mb-4">Your 'Shopping' budget of ₹15,000 has been exceeded by ₹2,400.</p>
+<button class="px-4 py-2 bg-error text-white text-xs font-bold rounded-lg hover:brightness-110 transition-all">Review Budget</button>
+</div>
+</div>
+<!-- Income Credit (Emerald) -->
+<div class="group relative bg-white border border-green-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex gap-5">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-green-50 text-emerald-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="payments">payments</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-base font-bold text-on-surface">Income Received</h4>
+<span class="text-xs text-slate-400 font-medium">5h ago</span>
+</div>
+<p class="text-sm text-slate-600 leading-relaxed mb-4">A credit of <span class="font-bold text-emerald-600">₹1,85,000</span> was processed in HDFC.</p>
+<button class="px-4 py-2 bg-green-600 text-white text-xs font-bold rounded-lg hover:brightness-110 transition-all">View Details</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Yesterday Group -->
+<section>
+<h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">Yesterday</h3>
+<div class="space-y-4">
+<!-- Bill Reminder (Amber) -->
+<div class="group relative bg-white border border-amber-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex gap-5">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="event_note">event_note</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-base font-bold text-on-surface">Upcoming Bill</h4>
+<span class="text-xs text-slate-400 font-medium">Yesterday</span>
+</div>
+<p class="text-sm text-slate-600 leading-relaxed mb-4">Tata Power bill of <span class="font-bold text-amber-700">₹3,200</span> is due in 3 days.</p>
+<button class="px-4 py-2 bg-amber-600 text-white text-xs font-bold rounded-lg hover:brightness-110 transition-all">Pay Now</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<div class="p-6 border-t border-slate-100 bg-white">
+<button class="w-full py-4 bg-primary text-on-primary font-bold text-sm rounded-xl hover:shadow-lg transition-all shadow-primary/20">
+                    View All Activity
+                </button>
+</div>
+</div>
+</div>
+</body></html>
